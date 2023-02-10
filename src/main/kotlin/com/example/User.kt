@@ -1,5 +1,6 @@
 package com.example
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.quarkus.hibernate.reactive.panache.PanacheEntity
 import org.hibernate.annotations.CreationTimestamp
 import java.time.ZonedDateTime
@@ -7,26 +8,47 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-public class Users : PanacheEntity() {
+@NamedQueries(
+    NamedQuery(name = "User.countAll", query = "SELECT count(u) FROM User u order by u.name asc")
+
+)
+@NamedNativeQueries(
+    NamedNativeQuery(name = "User.findAll", query = "SELECT * FROM users order by name asc", resultClass = User::class)
+)
+
+@SequenceGenerator(
+    name = "userSeq", sequenceName = "user_id_seq", allocationSize = 1, initialValue = 1, schema = "public"
+)
+class User : PanacheEntity() {
     @Column(name = "name", unique = true, nullable = false)
-    public var name: String? = null
+    var name: String? = null
 
     @Column(name = "password", nullable = false)
-    public var password: String? = null
+    @JsonProperty("password")
+    var password: String? = null
 
     @CreationTimestamp
     @Column(name = "created", nullable = false, updatable = false)
-    public var created: ZonedDateTime? = null
+    var created: ZonedDateTime? = null
 
     @Version
     @Column(name = "version", nullable = false)
-    public var version: Long? = null
+    var version: Long? = null
 
-    @ElementCollection(fetch = javax.persistence.FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = [javax.persistence.JoinColumn(name = "user_id")])
+    @PostUpdate
+    open fun postUpdate() {
+        roles = roles?.map { it.lowercase() }
 
+    }
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "id")])
     @Column(name = "role", nullable = false)
-    public var roles: List<String>? = null
+    var roles: List<String>? = null
 
 
+    @PostLoad
+    open fun postLoad() {
+        roles = roles?.map { it.toLowerCase() }
+    }
 }
