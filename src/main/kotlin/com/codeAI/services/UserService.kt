@@ -1,14 +1,22 @@
-package com.example
+package com.codeAI.services
 
+import com.codeAI.models.User
 import io.quarkus.elytron.security.common.BcryptUtil
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
 import io.smallrye.mutiny.Uni
 import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCrypt
+import org.eclipse.microprofile.jwt.JsonWebToken
 import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
+import javax.ws.rs.ClientErrorException
+import javax.ws.rs.core.Response
 
 @ApplicationScoped
 class UserService : PanacheRepository<User> {
+
+    @Inject
+    lateinit var jwt: JsonWebToken
 
     //find by id
     fun findUserById(id: Long): Uni<User> {
@@ -20,7 +28,6 @@ class UserService : PanacheRepository<User> {
         return find("name", name).firstResult<User?>().onItem().ifNull()
             .failWith { RuntimeException("User with name $name not found") }
     }
-
 
 
     fun list(): Uni<List<User>> {
@@ -70,13 +77,31 @@ class UserService : PanacheRepository<User> {
 
     fun getCurrentUser(): Uni<User> {
         //TODO: replace implementation once security is added to the project
-        return find("order by ID").firstResult<User>()
+        return findUserByName(jwt.name)
     }
 
-    fun  matches(user:User ,password: String): Boolean {
+    fun matches(user: User, password: String): Boolean {
         return BcryptUtil.matches(password, user.password)
     }
 
+
+    @ReactiveTransactional
+    fun changePassword(currentPassword: String, newPassword: String): Uni<User> {
+        return getCurrentUser().chain { user ->
+            if (matches(user, currentPassword)) {
+                user.password = BCrypt.hashpw(newPassword, BCrypt.gensalt())
+                persistAndFlush(user)
+            } else {
+                Uni.createFrom().failure(
+                    ClientErrorException(
+                        "Your Current password is incorrect",
+                        Response.Status.BAD_REQUEST
+                    )
+                )
+            }
+        }
+    }
 }
+
 
 

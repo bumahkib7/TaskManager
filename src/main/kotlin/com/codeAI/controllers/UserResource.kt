@@ -1,7 +1,11 @@
-package com.example
+package com.codeAI.controllers
 
+import com.codeAI.services.UserService
+import com.codeAI.models.User
+import com.codeAI.security.PasswordChange
 import io.smallrye.mutiny.Uni
 import java.time.Duration
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -65,6 +69,15 @@ class UserResource {
     @Path("/current2")
     fun getCurrent() : Uni<User> {
         return userService.getCurrentUser()
+    }
+
+
+    @PUT
+    @Path("self/password")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("user")
+    fun changePassword(passwordChange: PasswordChange): Uni<User> {
+        return userService.changePassword(passwordChange.currentPassword, passwordChange.newPassword)
     }
 
 

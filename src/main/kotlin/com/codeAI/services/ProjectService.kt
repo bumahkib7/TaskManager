@@ -1,10 +1,9 @@
-package com.example
+package com.codeAI.services
 
+import com.codeAI.models.Project
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
-import io.quarkus.security.UnauthorizedException
 import io.smallrye.mutiny.Uni
-import org.hibernate.ObjectNotFoundException
 
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject

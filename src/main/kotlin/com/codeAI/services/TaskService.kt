@@ -1,5 +1,6 @@
-package com.example
+package com.codeAI.services
 
+import com.codeAI.models.Task
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
 import io.smallrye.mutiny.Uni

@@ -1,5 +1,8 @@
-package com.example
+package com.codeAI.controllers
 
+import com.codeAI.services.ProjectService
+import com.codeAI.services.UserService
+import com.codeAI.models.Project
 import io.smallrye.mutiny.Uni
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType

@@ -1,4 +1,4 @@
-package com.example
+package com.codeAI.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.quarkus.hibernate.reactive.panache.PanacheEntity
@@ -13,7 +13,7 @@ import javax.persistence.*
 
 )
 @NamedNativeQueries(
-    NamedNativeQuery(name = "User.findAll", query = "SELECT * FROM users order by name asc", resultClass = User::class)
+    NamedNativeQuery(name = "User.findAll", query = "SELECT * FROM users order by name ", resultClass = User::class)
 )
 
 @SequenceGenerator(
@@ -35,11 +35,7 @@ class User : PanacheEntity() {
     @Column(name = "version", nullable = false)
     var version: Long? = null
 
-    @PostUpdate
-    open fun postUpdate() {
-        roles = roles?.map { it.lowercase() }
 
-    }
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "id")])
@@ -47,8 +43,5 @@ class User : PanacheEntity() {
     var roles: List<String>? = null
 
 
-    @PostLoad
-    open fun postLoad() {
-        roles = roles?.map { it.toLowerCase() }
-    }
+
 }

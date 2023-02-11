@@ -1,4 +1,4 @@
-package com.example
+package com.codeAI.exceptions
 
 import org.hibernate.HibernateException
 import org.hibernate.exception.ConstraintViolationException
@@ -9,7 +9,7 @@ import javax.ws.rs.ext.Provider
 @Provider
 class RestExceptionHandler : ExceptionMapper<HibernateException> {
     override fun toResponse(exception: HibernateException?): Response {
-        if (hasExceptionInChain(exception, org.hibernate.exception.ConstraintViolationException::class.java)) {
+        if (hasExceptionInChain(exception, ConstraintViolationException::class.java)) {
             val constraintViolationException = exception as ConstraintViolationException
             if (hasPostgresErrorCode(constraintViolationException, "23505")) {
                 return Response.status(Response.Status.CONFLICT).build()

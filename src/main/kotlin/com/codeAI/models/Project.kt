@@ -1,4 +1,4 @@
-package com.example
+package com.codeAI.models
 
 import io.quarkus.hibernate.reactive.panache.PanacheEntity
 import org.hibernate.annotations.CreationTimestamp
@@ -7,13 +7,14 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "projects",
-        uniqueConstraints = [UniqueConstraint(columnNames = ["name", "user_id"])]
-    )
+@Table(
+    name = "projects",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["name", "user_id"])]
+)
 class Project : PanacheEntity() {
 
     @Column(name = "name", nullable = false)
-    public var name: String? = null
+    var name: String? = null
 
     @ManyToOne(optional = false)
     var user: User? = null

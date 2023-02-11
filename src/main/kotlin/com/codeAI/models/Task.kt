@@ -1,4 +1,4 @@
-package com.example
+package com.codeAI.models
 
 import io.quarkus.hibernate.reactive.panache.PanacheEntity
 import org.hibernate.annotations.CreationTimestamp

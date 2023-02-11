@@ -1,5 +1,8 @@
-package com.example
+package com.codeAI.controllers
 
+import com.codeAI.services.TaskService
+import com.codeAI.services.UserService
+import com.codeAI.models.Task
 import io.smallrye.mutiny.Uni
 import javax.transaction.Transactional
 import javax.ws.rs.*
