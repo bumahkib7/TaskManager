@@ -1,5 +1,6 @@
 package com.example
 
+import io.quarkus.elytron.security.common.BcryptUtil
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
 import io.smallrye.mutiny.Uni
@@ -20,10 +21,7 @@ class UserService : PanacheRepository<User> {
             .failWith { RuntimeException("User with name $name not found") }
     }
 
-    fun findUserByNameAndPassword(name: String, password: String): Uni<User> {
-        return find("name = ?1 and password = ?2", name, password).firstResult<User?>().onItem().ifNull()
-            .failWith { RuntimeException("User with name $name and password $password not found") }
-    }
+
 
     fun list(): Uni<List<User>> {
         return listAll().onItem().ifNull()
@@ -75,8 +73,8 @@ class UserService : PanacheRepository<User> {
         return find("order by ID").firstResult<User>()
     }
 
-    fun static matches(User user, String password) : Boolean {
-        return BCrypt.checkpw(password, user.password)
+    fun  matches(user:User ,password: String): Boolean {
+        return BcryptUtil.matches(password, user.password)
     }
 
 }

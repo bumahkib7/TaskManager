@@ -11,12 +11,15 @@ release.properties
 .classpath
 .settings/
 bin/
+jwt/
 
 # IntelliJ
 .idea
 *.ipr
 *.iml
 *.iws
+*.sql
+*properties
 
 # NetBeans
 nb-configuration.xml

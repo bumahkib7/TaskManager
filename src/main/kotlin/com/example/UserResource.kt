@@ -1,7 +1,6 @@
 package com.example
 
 import io.smallrye.mutiny.Uni
-import org.jboss.resteasy.reactive.ResponseStatus
 import java.time.Duration
 import javax.inject.Inject
 import javax.ws.rs.*
