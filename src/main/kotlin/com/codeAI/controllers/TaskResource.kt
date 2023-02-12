@@ -4,6 +4,7 @@ import com.codeAI.services.TaskService
 import com.codeAI.services.UserService
 import com.codeAI.models.Task
 import io.smallrye.mutiny.Uni
+import javax.annotation.security.RolesAllowed
 import javax.transaction.Transactional
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -11,6 +12,7 @@ import javax.ws.rs.core.MediaType
 @Path("api/v1/tasks")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("user")
 class TaskResource {
 
     lateinit var taskService: TaskService

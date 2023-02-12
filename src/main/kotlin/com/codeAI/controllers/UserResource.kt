@@ -1,8 +1,8 @@
 package com.codeAI.controllers
 
-import com.codeAI.services.UserService
 import com.codeAI.models.User
 import com.codeAI.security.PasswordChange
+import com.codeAI.services.UserService
 import io.smallrye.mutiny.Uni
 import java.time.Duration
 import javax.annotation.security.RolesAllowed
@@ -11,27 +11,31 @@ import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
 @Path("api/v1/users")
+@RolesAllowed("admin")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 class UserResource {
     @Inject
     lateinit var userService: UserService
 
     @GET
-    @Path("/current")
-    fun get() : Uni<List<User>>{
+    @Path("/all")
+    fun get(): Uni<List<User>> {
         return userService.list()
     }
 
 
-   @GET
-   @Path("id/{id}")
-   fun getById(id: Long): Uni<User> {
-       return userService.findUserById(id).ifNoItem().after(Duration.ofSeconds(20)).failWith { RuntimeException("Timeout") }
-   }
+    @GET
+    @Path("id/{id}")
+    fun getById(id: Long): Uni<User> {
+        return userService.findUserById(id).ifNoItem().after(Duration.ofSeconds(20))
+            .failWith { RuntimeException("Timeout") }
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    fun create(user: User) : Uni<User> {
+    fun create(user: User): Uni<User> {
         return userService.create(user)
     }
 
@@ -50,7 +54,7 @@ class UserResource {
         return userService.update(user)
     }
 
-//delete
+    //delete
     @DELETE
     @Path("delete/{id}")
     fun delete(@PathParam("id") id: Long): Uni<Void> {
@@ -67,7 +71,8 @@ class UserResource {
     //get current users
     @GET
     @Path("/current2")
-    fun getCurrent() : Uni<User> {
+    @RolesAllowed("user")
+    fun getCurrent(): Uni<User> {
         return userService.getCurrentUser()
     }
 

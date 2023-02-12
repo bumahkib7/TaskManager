@@ -6,11 +6,13 @@ import com.codeAI.models.Project
 import io.smallrye.mutiny.Uni
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
+import javax.annotation.security.RolesAllowed
 
 @Path("api/v1/projects")
 @Suppress("unused")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("user")
 class ProjectResource {
 
     lateinit var projectService: ProjectService
