@@ -10,7 +10,6 @@ import javax.persistence.*
 @Table(name = "users")
 @NamedQueries(
     NamedQuery(name = "User.countAll", query = "SELECT count(u) FROM User u order by u.name asc")
-
 )
 @NamedNativeQueries(
     NamedNativeQuery(name = "User.findAll", query = "SELECT * FROM users order by name ", resultClass = User::class)
@@ -20,6 +19,7 @@ import javax.persistence.*
     name = "userSeq", sequenceName = "user_id_seq", allocationSize = 1, initialValue = 1, schema = "public"
 )
 class User : PanacheEntity() {
+
     @Column(name = "name", unique = true, nullable = false)
     var name: String? = null
 
@@ -36,12 +36,9 @@ class User : PanacheEntity() {
     var version: Long? = null
 
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "id")])
     @Column(name = "role", nullable = false)
     var roles: List<String>? = null
-
-
 
 }
