@@ -1,6 +1,7 @@
 package com.codeAI.services
 
 import com.codeAI.security.AuthRequest
+import com.ongres.scram.common.bouncycastle.pbkdf2.Arrays
 import io.quarkus.security.AuthenticationFailedException
 import io.smallrye.jwt.build.Jwt
 import io.smallrye.mutiny.Uni
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @ApplicationScoped
 class AuthService{
 
-    @ConfigProperty(name = "mp.jwt.verify.issuer")
+    @ConfigProperty(name = "mp.jwt.v erify.issuer")
     private lateinit var issuer: String
 
     @Inject
