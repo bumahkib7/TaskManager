@@ -1,1 +1,6 @@
-<p>main-drawer works!</p>
+<li>
+  <button mat-list-item [routerLink]="to" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <mat-icon *ngIf="Icon">{{Icon}}</mat-icon>
+    <span matLine>{{title}}</span>
+  </button>
+</li>

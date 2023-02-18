@@ -1,0 +1,6 @@
+<a mat-list-item routerLink="{{to}}" [routerLinkActiveOptions]="{ exact: true }"
+   [routerLinkActive]="['mat-list-item-selected']" [ngClass]="{'mat-list-item-selected': selected}">
+    <mat-icon *ngIf="Icon" matTooltip="{{title}}" matTooltipPosition="right"
+              matTooltipDisabled="{{disableTooltip}}">{{Icon}}</mat-icon>
+    <span matLine>{{title}}</span>
+</a>

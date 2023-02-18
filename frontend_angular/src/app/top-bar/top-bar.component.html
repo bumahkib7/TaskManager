@@ -1,1 +1,16 @@
-<p>top-bar works!</p>
+<mat-toolbar color="primary" class="top-bar">
+    <button mat-icon-button (click)="toggleDrawer()" aria-label="Toggle main navigation">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <span>Task manager</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="goHome()" aria-label="Go to home">
+        <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button (click)="newTask()" aria-label="Create new task">
+        <mat-icon>add_circle</mat-icon>
+    </button>
+    <mat-icon>account_circle</mat-icon>
+    <app-main-drawer [closed]="drawerClosed" (toggleDrawer)="toggleDrawer()"></app-main-drawer>
+</mat-toolbar>
