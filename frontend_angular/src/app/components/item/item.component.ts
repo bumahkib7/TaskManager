@@ -18,9 +18,9 @@ export class ItemComponent {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.router.events.subscribe((val) => {
-        this.selected = this.router.url === this.to;
-    });
+    if (this.to === this.router.url) {
+      this.selected = true;
+    }
   }
 
 }
