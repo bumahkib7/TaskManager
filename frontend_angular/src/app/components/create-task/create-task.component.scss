@@ -1,0 +1,37 @@
+.create-task {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  .h1 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  // create-task.component.scss
+
+  .create-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 16px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    .mat-form-field {
+      width: 100%;
+    }
+
+    .mat-select {
+      width: 100%;
+    }
+
+    .mat-raised-button {
+      margin-top: 16px;
+      width: 100%;
+    }
+  }
+}
+
